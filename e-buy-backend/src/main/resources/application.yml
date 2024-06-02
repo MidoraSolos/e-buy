@@ -1,0 +1,21 @@
+#spring.datasource.url=
+#spring.datasource.username=
+#spring.datasource.password=
+#spring.jpa.properties.hibernate.dialect=
+#spring.jpa-show-sql=
+#spring.jpa.hibernate.ddl-auto=update
+#spring.jpa.properties.hibernate.ddl-auto=
+spring:
+  properties:
+#    hibernate:
+#      dialect: org.hibernate.dialect.MySQL8Dialect
+#      ddl-auto: update
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/ebuy
+    username: root
+    password: abdullahim123
