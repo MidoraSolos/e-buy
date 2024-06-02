@@ -47,7 +47,7 @@ const SignUp = () => {
 				</form>
 				<p className="text-end mt-2">
 					Already Registered?
-					<Link to="/SignIn" className="ms-2">
+					<Link to="/" className="ms-2">
 						Sign In
 					</Link>
 				</p>
