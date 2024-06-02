@@ -1,15 +1,14 @@
-import { useState } from 'react'
-
-import './App.css'
+import React from "react";
+import "./CSS/App.css";
+import BaseRouter from "./Routes/BaseRouter";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      This is a start
-    </>
-  )
+	return (
+		<>
+			<BaseRouter />
+		</>
+	);
 }
 
-export default App
+export default App;
