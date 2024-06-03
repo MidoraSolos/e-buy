@@ -12,7 +12,7 @@ export default function Products({ imgUrl, productName, text, price }) {
 				<Card.Text>{text}</Card.Text>
 				<Card.Text>{price}</Card.Text>
 
-				<Link to="/" className=" btn btn-primary">
+				<Link to="/login" className=" btn btn-primary">
 					Sign In
 				</Link>
 			</Card.Body>

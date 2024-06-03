@@ -8,9 +8,9 @@ const BaseRouter = () => {
 	return (
 		<Router>
 			<Routes>
-				<Route path="/" element={<SignIn />}></Route>
+				<Route path="/login" element={<SignIn />}></Route>
 				<Route path="/SignUp" element={<SignUp />}></Route>
-				<Route path="/MainPage" element={<MainPage />}></Route>
+				<Route path="/" element={<MainPage />}></Route>
 			</Routes>
 		</Router>
 	);
