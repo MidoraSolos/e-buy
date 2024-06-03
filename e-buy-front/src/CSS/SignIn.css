@@ -1,6 +1,12 @@
 .form_containter {
 	width: 30%;
 }
+.link {
+	all: unset;
+}
+.textSize {
+	font-size: 1.5rem;
+}
 @media screen and (max-width: 1000px) {
 	.form_containter {
 		width: 45%;

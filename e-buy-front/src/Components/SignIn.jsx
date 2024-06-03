@@ -36,7 +36,10 @@ const SignIn = () => {
 						</label>
 					</div>
 					<div className="d-grid ">
-						<button className="btn btn-primary">Sign In</button>
+						<Link to="/" className="ms-2 link btn btn-primary textSize">
+							Sign In
+							{/* <button className="btn btn-primary">Sign In</button> */}
+						</Link>
 					</div>
 				</form>
 				<p className="text-end mt-2">

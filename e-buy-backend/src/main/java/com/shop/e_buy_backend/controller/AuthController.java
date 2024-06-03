@@ -9,14 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = {"*"})
+@CrossOrigin(origins = {"http://localhost:5173"})
 public class AuthController {
 
     @Autowired
@@ -36,4 +33,10 @@ public class AuthController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @PostMapping("/api/v1/signUp")
+    public ResponseEntity<User> saveUser(@RequestBody User user){
+        User newUser=userService.saveUser(user);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
+
 }
