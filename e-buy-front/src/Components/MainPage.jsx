@@ -17,7 +17,7 @@ const MainPage = (props) => {
 				imgUrl="src/assets/background1.png"
 				productName="Potatoe"
 				price="$670"
-				text="This is a very special potatoe This is a very special potatoe This is a very special potatoe"
+				text="This is a very special potatoe s a very special potatoe"
 			/>
 		</div>
 	);
