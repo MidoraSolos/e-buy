@@ -24,6 +24,9 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    public Product() {
+    }
+
     public Product(Long id, String image, String name, double price, String description) {
         this.id = id;
         this.image = image;

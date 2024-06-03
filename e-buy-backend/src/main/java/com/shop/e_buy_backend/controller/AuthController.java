@@ -33,7 +33,7 @@ public class AuthController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping("/signUp")
+    @PostMapping("/api/v1/signUp")
     public ResponseEntity<User> saveUser(@RequestBody User user){
         User newUser=userService.saveUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
