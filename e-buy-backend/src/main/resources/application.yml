@@ -18,4 +18,4 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/ebuy
     username: root
-    password: abdullahim123
+    password: root

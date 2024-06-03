@@ -25,19 +25,18 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "crt_dt")
-    private Date createdDate;
+
 
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String email, String password, Date createdDate) {
+    public User(Long id, String firstName, String lastName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.createdDate = createdDate;
+
     }
 
     public Long getId() {
@@ -80,13 +79,9 @@ public class User {
         this.password = password;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+
+
 
     @Override
     public String toString() {
