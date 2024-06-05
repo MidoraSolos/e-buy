@@ -8,7 +8,8 @@ export default function Products({ imgUrl, productName, text, price, id }) {
 		<Card>
 			<Card.Body>
 				<Link to={`/signup/${id}`}>
-					<Card.Img id="img" variant="top" src={`/${imgUrl}`} />
+					<Card.Img id="img" variant="top" src={imgUrl} />
+
 					<Card.Title>{productName}</Card.Title>
 					<Card.Text id="price">{price}</Card.Text>
 					<Card.Text>{text}</Card.Text>
