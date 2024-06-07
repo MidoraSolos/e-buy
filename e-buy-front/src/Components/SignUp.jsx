@@ -71,7 +71,7 @@ const SignUp = () => {
 			});
 
 			// Navigate to the login page after successful submission
-			navigate("/login");
+			navigate("/");
 		} catch (error) {
 			console.error("Error:", error);
 		}
