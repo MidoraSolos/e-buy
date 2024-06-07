@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
-    @Query(value = "select * from ebuy.products",nativeQuery = true)
-    List<Product> getAllProducts();
+//    @Query(value = "select * from ebuy.products",nativeQuery = true)
+//    List<Product> getAllProducts();
+
+//    Product createProduct(Product product);
 }

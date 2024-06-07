@@ -13,6 +13,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return productRepository.getAllProducts();
+        return productRepository.findAll();
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).get();
+    }
+
+    @Override
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
     }
 }
