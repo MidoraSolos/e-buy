@@ -3,42 +3,39 @@ package com.shop.e_buy_backend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name="products")
-public class Product {
+@Table(name = "category")
+public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "image")
-    private String image;
-
     @Column(name = "name")
     private String name;
 
-    @Column(name = "price")
-    private double price;
+    @Column(name = "image")
+    private String image;
 
     @Column(name = "description")
     private String description;
+    
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products = new ArrayList<Product>();
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private Category category;
-
-    public Product() {
+    public Category() {
     }
 
-    public Product(Long id, String image, String name, double price, String description) {
+    public Category(Long id, String name, String image, String description, List<Product> products) {
         this.id = id;
-        this.image = image;
         this.name = name;
-        this.price = price;
+        this.image = image;
         this.description = description;
+        this.products = products;
     }
 
     public Long getId() {
@@ -49,14 +46,6 @@ public class Product {
         this.id = id;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public String getName() {
         return name;
     }
@@ -65,12 +54,12 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    public String getImage() {
+        return image;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getDescription() {
@@ -80,5 +69,12 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
-}
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+}
