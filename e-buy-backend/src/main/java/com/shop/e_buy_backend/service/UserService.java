@@ -18,6 +18,8 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     public User saveUser(User user){
+
+
         PasswordGenerator passwordGenerator= new PasswordGenerator();
         user.setPassword(passwordGenerator.encodePassword(user.getPassword()));
 

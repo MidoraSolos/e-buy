@@ -34,9 +34,14 @@ public class AuthController {
         }
     }
     @PostMapping("/api/v1/signUp")
-    public ResponseEntity<User> saveUser(@RequestBody User user){
-        User newUser=userService.saveUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    public ResponseEntity<String> saveUser(@RequestBody User user){
+        try{
+
+            User newUser=userService.saveUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body("User Created Successfully");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.FOUND).body("Email already exists");
+        }
     }
 
 }
