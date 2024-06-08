@@ -1,4 +1,4 @@
-package com.shop.e_buy_backend.service.impl;
+package com.shop.e_buy_backend.service;
 
 import com.shop.e_buy_backend.model.Cart;
 import com.shop.e_buy_backend.model.Product;
