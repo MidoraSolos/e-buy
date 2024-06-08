@@ -1,8 +1,10 @@
 package com.shop.e_buy_backend.controller;
 
+import com.shop.e_buy_backend.exception.CartNotFoundException;
 import com.shop.e_buy_backend.model.Cart;
 import com.shop.e_buy_backend.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +18,10 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/{cartId}/addProduct/{productId}")
-    public ResponseEntity<Cart> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId) {
+    public ResponseEntity<Cart> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId) throws CartNotFoundException {
         Cart updatedCart = cartService.addProductToCart(cartId, productId);
         if (updatedCart != null) {
-            return ResponseEntity.ok(updatedCart);
+            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -29,7 +31,7 @@ public class CartController {
     public ResponseEntity<Cart> removeProductFromCart(@PathVariable Long cartId, @PathVariable Long productId) {
         Cart updatedCart = cartService.removeProductFromCart(cartId, productId);
         if (updatedCart != null) {
-            return ResponseEntity.ok(updatedCart);
+            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
