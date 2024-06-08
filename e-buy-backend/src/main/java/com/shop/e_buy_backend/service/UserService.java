@@ -5,7 +5,6 @@ import com.shop.e_buy_backend.model.User;
 import com.shop.e_buy_backend.repository.UserRepository;
 import com.shop.e_buy_backend.util.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
