@@ -17,7 +17,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("{categoryId}/findCategoryById")
+    @GetMapping("/{categoryId}/findCategoryById")
     public ResponseEntity<Category> findCategoryById(@PathVariable("categoryId") Long categoryId) {
         return new ResponseEntity<>(this.categoryService.findCategoryById(categoryId), HttpStatus.OK);
     }

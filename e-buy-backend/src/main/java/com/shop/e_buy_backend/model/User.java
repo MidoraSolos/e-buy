@@ -2,8 +2,6 @@ package com.shop.e_buy_backend.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
-
 @Entity
 @Table(name="users")
 public class User {
@@ -25,18 +23,19 @@ public class User {
     @Column(name = "password")
     private String password;
 
-
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
 
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String email, String password) {
+    public User(Long id, String firstName, String lastName, String email, String password, Cart cart) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-
+        this.cart = cart;
     }
 
     public Long getId() {
@@ -80,8 +79,13 @@ public class User {
     }
 
 
+    public Cart getCart() {
+        return cart;
+    }
 
-
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 
     @Override
     public String toString() {
@@ -91,6 +95,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", cart=" + cart +
                 '}';
     }
 }

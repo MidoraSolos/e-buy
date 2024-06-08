@@ -3,8 +3,6 @@ package com.shop.e_buy_backend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.awt.*;
-
 @Entity
 @Table(name="products")
 public class Product {

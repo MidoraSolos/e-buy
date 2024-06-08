@@ -1,5 +1,6 @@
 package com.shop.e_buy_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -14,8 +15,31 @@ public class Cart {
     @Column(updatable = false, nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartProduct> cartProducts = new ArrayList<>();
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "price")
+    private Long price;
+
+    @OneToMany
+    @JoinColumn(name="cart_id")
+    private List<Product> cartProducts = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+
+    public Cart() {}
+
+    public Cart(Long id, String name, Long price, List<Product> cartProducts, User user) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.cartProducts = cartProducts;
+        this.user = user;
+    }
 
     // Getter and Setter methods
 
@@ -27,20 +51,35 @@ public class Cart {
         this.id = id;
     }
 
-    public List<CartProduct> getCartProducts() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public List<Product> getCartProducts() {
         return cartProducts;
     }
 
-    public void setCartProducts(List<CartProduct> cartProducts) {
+    public void setCartProducts(List<Product> cartProducts) {
         this.cartProducts = cartProducts;
     }
 
-    public void addProduct(Product product) {
-        CartProduct cartProduct = new CartProduct(this, product);
-        cartProducts.add(cartProduct);
+    public User getUser() {
+        return user;
     }
 
-    public void removeProduct(Product product) {
-        cartProducts.removeIf(cartProduct -> cartProduct.getProduct().equals(product));
+    public void setUser(User user) {
+        this.user = user;
     }
 }
