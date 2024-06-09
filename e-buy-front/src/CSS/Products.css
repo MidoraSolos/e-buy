@@ -42,7 +42,26 @@ p {
 	/* align-items: center; */
 	/* margin: auto; */
 	margin-top: 4rem;
+	width: 85%;
 }
+.fullScreen {
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+}
+.CategorySort {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	border: 1rem solid blue;
+	width: 15%;
+
+	/* height: 100%; */
+}
+.CategorySort button {
+	margin-bottom: 2rem; /* Add some margin between items */
+}
+
 @media screen and (max-width: 1000px) {
 	.card {
 		width: 20%;

@@ -3,11 +3,14 @@ import "./CSS/App.css";
 
 import BaseRouter from "./Routes/BaseRouter";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { UserProvider } from "./Components/UserContext";
 
 function App() {
 	return (
 		<>
-			<BaseRouter />
+			<UserProvider>
+				<BaseRouter />
+			</UserProvider>
 		</>
 	);
 }

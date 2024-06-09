@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../CSS/SignIn.css";
+import UserContext from "../Components/UserContext";
 
 const SignUp = () => {
 	const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const SignUp = () => {
 	const [emailExists, setEmailExists] = useState(false);
 
 	const navigate = useNavigate();
+	const { setUserId } = useContext(UserContext);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -43,6 +45,13 @@ const SignUp = () => {
 			console.log("result is ", result);
 
 			if (result.id != null) {
+				// Set the user ID in context
+				setUserId(result.id);
+
+				console.log("Email is added to the database ");
+				console.log("why this work ");
+				console.log(result.id);
+
 				// Clear the form and navigate to the login page after successful submission
 				setFormData({
 					firstName: "",
@@ -50,13 +59,17 @@ const SignUp = () => {
 					email: "",
 					password: "",
 				});
+				console.log("Email is added to the database ");
+
 				alert("User Made Successfully");
 				navigate("/");
 			} else {
-				setEmailExists(result === "Email already exists");
+				console.log("email already exists");
+				setEmailExists(true);
 			}
 		} catch (error) {
-			console.error("Error:", error);
+			console.error("Error1:", error);
+			setEmailExists(true);
 		}
 	};
 

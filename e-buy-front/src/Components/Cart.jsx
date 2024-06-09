@@ -1,60 +1,27 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-// import "../CSS/CartPage.css";
-// import NavBar from "./NavBar";
-// const Cart = () => {
-// 	return (
-// 		<>
-// 			<NavBar />
-// 			<div className="cart-container">
-// 				<div className="header">
-// 					<Link to="/" className="return-link btn btn-danger">
-// 						Return to shopping
-// 					</Link>
-// 				</div>
-// 				<h1 className="cart-title">Cart</h1>
-// 				<h2 className="cart-subtotal">Price subtotal @ _ item(s)</h2>
-// 				<div className="cart-item">
-// 					<h2 className="product-name">Product Name</h2>
-// 					<h4 className="product-quantity">Quantity: _</h4>
-// 					<h2 className="product-price">Product Price: $</h2>
-// 					<button className="remove-btn btn btn-danger">
-// 						Remove from cart
-// 					</button>
-// 				</div>
-// 				<div className="purchase-container">
-// 					<button className="purchase-btn btn btn-primary">
-// 						Purchase Items
-// 					</button>
-// 				</div>
-// 			</div>
-// 		</>
-// 	);
-// };
-
-// export default Cart;
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "../CSS/CartPage.css";
 import NavBar from "./NavBar";
+import UserContext from "../Components/UserContext"; // Import the UserContext
 
 const Cart = () => {
+	const { userId } = useContext(UserContext); // Access userId from context
+	// console.log(userId);
 	const [cart, setCart] = useState(null);
 	const [error, setError] = useState(null);
+	const [totalPrice, setTotalPrice] = useState(0);
 
 	useEffect(() => {
 		const fetchCart = async () => {
 			try {
-				const cartId = 62; // Assuming you're working with cart ID 3 for now
+				// Use userId instead of hardcoding cartId
 				const response = await fetch(
-					`http://localhost:8080/api/v1/cart/${cartId}`
+					// `http://localhost:8080/api/v1/cart/${userId}`
+					`http://localhost:8080/api/v1/cart/62`
 				);
 				if (response.ok) {
 					const data = await response.json();
 					setCart(data);
-					// console.log(cart);
-					// console.log(cart.cartProducts);
 				} else {
 					setError("Failed to fetch cart");
 				}
@@ -65,13 +32,24 @@ const Cart = () => {
 		};
 
 		fetchCart();
-	}, []);
+	}, [userId]); // Trigger useEffect whenever userId changes
+
+	useEffect(() => {
+		if (cart) {
+			let total = 0;
+			for (const cartProduct of cart.cartProducts) {
+				total += cartProduct.price;
+			}
+			setTotalPrice(total);
+		}
+	}, [cart]);
 
 	const removeProduct = async (productId) => {
 		try {
-			const cartId = 62; // Assuming you're working with cart ID 3 for now
+			// Use userId instead of hardcoding cartId
 			const response = await fetch(
-				`http://localhost:8080/api/v1/cart/${cartId}/removeProduct/${productId}`,
+				// `http://localhost:8080/api/v1/cart/${userId}/removeProduct/${productId}`,
+				`http://localhost:8080/api/v1/cart/62/removeProduct/${productId}`,
 				{
 					method: "DELETE",
 					headers: {
@@ -124,6 +102,7 @@ const Cart = () => {
 							</div>
 						))}
 						<div className="purchase-container">
+							<h2 className="total-price">Total Price: ${totalPrice}</h2>
 							<button className="purchase-btn btn btn-primary">
 								Purchase Items
 							</button>

@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import UserContext from "../Components/UserContext"; // Adjust the import path accordingly
 
 export default function Products({ imgUrl, productName, text, price, id }) {
+	const { userId } = useContext(UserContext); // Access the user ID from the context
+
 	const handleAddToCart = async (productId) => {
 		try {
-			const cartId = 62; // Assuming you're working with cart ID 1 for now
+			if (!userId) {
+				console.error("User ID is not available");
+				return;
+			}
+
 			const response = await fetch(
-				`http://localhost:8080/api/v1/cart/${cartId}/addProduct/${productId}`,
+				`http://localhost:8080/api/v1/cart/${userId}/addProduct/${productId}`,
 				{
 					method: "POST",
 					headers: {
