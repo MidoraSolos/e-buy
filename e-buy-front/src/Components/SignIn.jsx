@@ -27,16 +27,21 @@ const SignIn = () => {
     fetch("http://localhost:8080/login", {
       headers: {
         Authorization: "Basic " + window.btoa(email + ":" + password),
+        "Content-Type": "application/json",
       },
     })
-      .then((resp) => {
+      .then(async (resp) => {
         console.log("email =>", email);
         console.log("password =>", password);
-        console.log("response =>", resp.json());
+        console.log("response => ", resp);
+
         if (resp.ok) {
+          const data = await resp.json();
+          console.log("response =>", data);
           console.log("success");
           setIsLoginSuccess(true);
-          navigate("/home");
+          localStorage.setItem("currentUser", JSON.stringify(data));
+          navigate("/");
         } else {
           console.log("fail");
           setIsLoginSuccess(false);
