@@ -1,5 +1,6 @@
 package com.shop.e_buy_backend.controller;
 
+import com.shop.e_buy_backend.exception.UserException;
 import com.shop.e_buy_backend.model.AppUserDetails;
 import com.shop.e_buy_backend.model.User;
 import com.shop.e_buy_backend.repository.UserRepository;
@@ -34,9 +35,15 @@ public class AuthController {
         }
     }
     @PostMapping("/api/v1/signUp")
-    public ResponseEntity<User> saveUser(@RequestBody User user){
-        User newUser=userService.saveUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    public ResponseEntity<User> saveUser(@RequestBody User user)throws UserException {
+        try{
+
+            User newUser=userService.saveUser(user);
+            return new ResponseEntity<>(newUser,HttpStatus.CREATED);
+        }catch (Exception e){
+//            return new UserException("Email already exists");
+            return new ResponseEntity<>(HttpStatus.CONFLICT); // Use CONFLICT to indicate duplicate email
+        }
     }
 
 }

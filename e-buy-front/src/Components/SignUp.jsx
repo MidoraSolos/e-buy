@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../CSS/SignIn.css";
+import UserContext from "../Components/UserContext";
 
 const SignUp = () => {
 	const [formData, setFormData] = useState({
@@ -10,45 +11,26 @@ const SignUp = () => {
 		password: "",
 	});
 	const [emailExists, setEmailExists] = useState(false);
+
 	const navigate = useNavigate();
+	const { setUserId } = useContext(UserContext);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+
+		// Reset emailExists if the user is typing a new email
+		if (name === "email") {
+			setEmailExists(false);
+		}
+
 		setFormData({
 			...formData,
 			[name]: value,
 		});
 	};
 
-	const checkEmailExists = async (email) => {
-		try {
-			const response = await fetch("http://localhost:8080/api/v1/checkEmail", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email }),
-			});
-
-			const result = await response.json();
-			return result.exists;
-		} catch (error) {
-			console.error("Error:", error);
-			return false;
-		}
-	};
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
-		const exists = await checkEmailExists(formData.email);
-
-		if (exists) {
-			setEmailExists(true);
-			return;
-		}
-
-		setEmailExists(false);
 
 		try {
 			const response = await fetch("http://localhost:8080/api/v1/signUp", {
@@ -60,20 +42,34 @@ const SignUp = () => {
 			});
 
 			const result = await response.json();
-			console.log("Success:", result);
+			console.log("result is ", result);
 
-			// Clear the form after successful submission
-			setFormData({
-				firstName: "",
-				lastName: "",
-				email: "",
-				password: "",
-			});
+			if (result.id != null) {
+				// Set the user ID in context
+				setUserId(result.id);
 
-			// Navigate to the login page after successful submission
-			navigate("/");
+				console.log("Email is added to the database ");
+				console.log("why this work ");
+				console.log(result.id);
+
+				// Clear the form and navigate to the login page after successful submission
+				setFormData({
+					firstName: "",
+					lastName: "",
+					email: "",
+					password: "",
+				});
+				console.log("Email is added to the database ");
+
+				alert("User Made Successfully");
+				navigate("/");
+			} else {
+				console.log("email already exists");
+				setEmailExists(true);
+			}
 		} catch (error) {
-			console.error("Error:", error);
+			console.error("Error1:", error);
+			setEmailExists(true);
 		}
 	};
 
