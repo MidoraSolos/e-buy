@@ -42,7 +42,7 @@ public class AuthController {
             return new ResponseEntity<>(newUser,HttpStatus.CREATED);
         }catch (Exception e){
 //            return new UserException("Email already exists");
-//            return new ResponseEntity.status(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CONFLICT); // Use CONFLICT to indicate duplicate email
         }
     }
 
