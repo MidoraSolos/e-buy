@@ -21,8 +21,8 @@ public class Cart {
     @Column(name = "price")
     private Long price;
 
-    @OneToMany
-    @JoinColumn(name="cart_id")
+    @ManyToMany
+//    @JoinColumn(name="cart_id")
     private List<Product> cartProducts = new ArrayList<>();
 
     @JsonIgnore
