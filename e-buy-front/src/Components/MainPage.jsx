@@ -5,7 +5,7 @@ import NavBar from "./NavBar.jsx";
 
 const MainPage = (props) => {
 	const [product, setProduct] = useState([]);
-	const [cartId, setCartId] = useState(3); //change later for user id
+	const [cartId, setCartId] = useState(62); //change later for user id
 
 	useEffect(() => {
 		fetch("http://localhost:8080/api/v1/products/getAllProducts")

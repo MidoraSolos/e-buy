@@ -39,10 +39,10 @@ const SignUp = () => {
 				body: JSON.stringify(formData),
 			});
 
-			const result = await response.text();
+			const result = await response.json();
 			console.log("result is ", result);
 
-			if (result === "User Created Successfully") {
+			if (result.id != null) {
 				// Clear the form and navigate to the login page after successful submission
 				setFormData({
 					firstName: "",
