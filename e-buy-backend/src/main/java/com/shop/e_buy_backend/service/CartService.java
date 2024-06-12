@@ -6,7 +6,8 @@ import com.shop.e_buy_backend.model.Cart;
 import java.util.Optional;
 
 public interface CartService {
-    Cart addProductToCart(Long cartId, Long productId) throws CartNotFoundException;
-    Cart removeProductFromCart(Long cartId, Long productId);
-    Optional<Cart> getCartById(Long cartId);
+    Cart addProductToCart(Long userId,Long cartId, Long productId ) throws CartNotFoundException;
+    Cart removeProductFromCart(Long userId,Long cartId, Long productId);
+    Optional<Cart> getCartById(Long userId, Long cartId);
+    Cart saveCart(Cart cart);
 }
