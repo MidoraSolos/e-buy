@@ -11,13 +11,16 @@ const Cart = () => {
 	const [error, setError] = useState(null);
 	const [totalPrice, setTotalPrice] = useState(0);
 
+	let usersId = JSON.parse(localStorage.getItem("currentUser")).id;
+	let cartId = JSON.parse(localStorage.getItem("currentUser")).cart.id;
+
 	useEffect(() => {
 		const fetchCart = async () => {
 			try {
 				// Use userId instead of hardcoding cartId
 				const response = await fetch(
 					// `http://localhost:8080/api/v1/cart/${userId}`
-					`http://localhost:8080/api/v1/cart/62`
+					`http://localhost:8080/api/v1/cart/${usersId}/${cartId}`
 				);
 				if (response.ok) {
 					const data = await response.json();
@@ -48,8 +51,8 @@ const Cart = () => {
 		try {
 			// Use userId instead of hardcoding cartId
 			const response = await fetch(
-				// `http://localhost:8080/api/v1/cart/${userId}/removeProduct/${productId}`,
-				`http://localhost:8080/api/v1/cart/62/removeProduct/${productId}`,
+				// `http://localhost:8080/api/v1/cart/904/removeProduct/${productId}`,
+				`http://localhost:8080/api/v1/cart/${usersId}/${cartId}/removeProduct/${productId}`,
 				{
 					method: "DELETE",
 					headers: {
@@ -74,7 +77,7 @@ const Cart = () => {
 			<NavBar />
 			<div className="cart-container">
 				<div className="header">
-					<Link to="/" className="return-link btn btn-danger">
+					<Link to="/mainPage" className="return-link btn btn-danger">
 						Return to shopping
 					</Link>
 				</div>
@@ -87,22 +90,29 @@ const Cart = () => {
 							Price subtotal @ {cart.cartProducts.length} item(s)
 						</h2>
 						{cart.cartProducts.map((cartProduct) => (
-							<div key={cartProduct.id} className="cart-item">
-								<h2 className="product-name">{cartProduct.name}</h2>
-								<h4 className="product-quantity">Quantity: 1</h4>
-								<h2 className="product-price">
-									Product Price: ${cartProduct.price}
-								</h2>
-								<button
-									onClick={() => removeProduct(cartProduct.id)}
-									className="remove-btn btn btn-danger"
-								>
-									Remove from cart
-								</button>
+							<div key={cartProduct.id} className="cartProduct">
+								<div className="productImage">
+									<img src={cartProduct.image} alt="image" />
+								</div>
+								<div className="cart-item">
+									<h2 className="product-name">{cartProduct.name}</h2>
+									<h4 className="product-quantity">Quantity: 1</h4>
+									<h2 className="product-price">
+										Product Price: ${cartProduct.price}
+									</h2>
+									<button
+										onClick={() => removeProduct(cartProduct.id)}
+										className="remove-btn btn btn-danger"
+									>
+										Remove from cart
+									</button>
+								</div>
 							</div>
 						))}
 						<div className="purchase-container">
-							<h2 className="total-price">Total Price: ${totalPrice}</h2>
+							<h2 className="total-price">
+								Total Price: ${totalPrice.toFixed(2)}
+							</h2>
 							<button className="purchase-btn btn btn-primary">
 								Purchase Items
 							</button>

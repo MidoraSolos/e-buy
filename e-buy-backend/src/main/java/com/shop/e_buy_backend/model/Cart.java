@@ -21,7 +21,7 @@ public class Cart {
     @Column(name = "price")
     private Long price;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
 //    @JoinColumn(name="cart_id")
     private List<Product> cartProducts = new ArrayList<>();
 

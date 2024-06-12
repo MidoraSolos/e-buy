@@ -12,9 +12,9 @@ const BaseRouter = () => {
 		<Router>
 			{/* <NavBar></NavBar> */}
 			<Routes>
-				<Route path="/login" element={<SignIn />}></Route>
+				<Route path="/" element={<SignIn />}></Route>
 				<Route path="/SignUp" element={<SignUp />}></Route>
-				<Route path="/" element={<MainPage />}></Route>
+				<Route path="/mainPage" element={<MainPage />}></Route>
 				<Route path="/ProductView/:id" element={<ProductView />}></Route>
 				<Route path="/Cart" element={<Cart />}></Route>
 			</Routes>

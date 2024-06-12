@@ -3,7 +3,9 @@ package com.shop.e_buy_backend.service;
 import com.shop.e_buy_backend.exception.CartNotFoundException;
 import com.shop.e_buy_backend.model.Cart;
 import com.shop.e_buy_backend.model.Product;
+import com.shop.e_buy_backend.model.User;
 import com.shop.e_buy_backend.repository.CartRepository;
+import com.shop.e_buy_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +22,21 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
-    public Cart addProductToCart(Long cartId, Long productId) throws CartNotFoundException {
+    public Cart addProductToCart(Long userId,Long cartId, Long productId ) throws CartNotFoundException {
         Optional<Cart> cartOpt = cartRepository.findById(cartId);
+//        Cart cart ;
+//        if(cartOpt==null){
+//            cart=new Cart();
+//        }
         Product product = productService.getProductById(productId);
-        if (cartOpt.isPresent() && product != null) {
+        User user = userService.getUserById(userId);
+        if (cartOpt.isPresent() && product != null && user!=null) {
             Cart cart = cartOpt.get();
             cart.getCartProducts().add(product);
-
             return cartRepository.save(cart);
         }
         else {
@@ -36,11 +45,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart removeProductFromCart(Long cartId, Long productId) {
+    public Cart removeProductFromCart(Long userId, Long cartId,Long productId) {
         Optional<Cart> cartOpt = cartRepository.findById(cartId);
         Product product = productService.getProductById(productId);
-
-        if (cartOpt.isPresent() && product != null) {
+        User user = userService.getUserById(userId);
+        if (cartOpt.isPresent() && product != null && user != null) {
             Cart cart = cartOpt.get();
             List<Product> cartProducts = cart.getCartProducts();
             for (int i = 0; i < cartProducts.size(); i++) {
@@ -54,7 +63,13 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Optional<Cart> getCartById(Long cartId) {
+    public Optional<Cart> getCartById(Long userId,Long cartId) {
+        User user =userService.getUserById(userId);
         return cartRepository.findById(cartId);
+    }
+
+    @Override
+    public Cart saveCart(Cart cart) {
+        return cartRepository.save(cart);
     }
 }

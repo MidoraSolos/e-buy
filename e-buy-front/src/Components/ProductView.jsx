@@ -31,7 +31,7 @@ const ProductView = (props) => {
 					<h1 className="Name">{product.name}</h1>
 					<h2 className="Price">{product.price}</h2>
 					<p className="description">{product.description}</p>
-					<Link to="/" className=" link btn btn-danger textSize">
+					<Link to="/mainPage" className=" link btn btn-danger textSize">
 						Back to shop
 						{/* <button className="btn btn-primary">Sign In</button> */}
 					</Link>

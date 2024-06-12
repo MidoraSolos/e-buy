@@ -1,8 +1,10 @@
 package com.shop.e_buy_backend.service;
 
 import com.shop.e_buy_backend.model.AppUserDetails;
+import com.shop.e_buy_backend.model.Cart;
 import com.shop.e_buy_backend.model.Product;
 import com.shop.e_buy_backend.model.User;
+import com.shop.e_buy_backend.repository.CartRepository;
 import com.shop.e_buy_backend.repository.UserRepository;
 import com.shop.e_buy_backend.util.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,20 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CartRepository cartRepository;
     public User saveUser(User user){
 
 
         PasswordGenerator passwordGenerator= new PasswordGenerator();
         user.setPassword(passwordGenerator.encodePassword(user.getPassword()));
+
+        User savedUser = userRepository.save(user);
+        Cart cart = new Cart();
+        cart.setUser(user);
+        cartRepository.save(cart);
+
+        user.setCart(cart);
 
         return userRepository.save(user);
     }

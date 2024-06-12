@@ -7,6 +7,11 @@ import UserContext from "../Components/UserContext"; // Make sure the path is co
 const MainPage = (props) => {
 	const [product, setProduct] = useState([]);
 	const { userId } = useContext(UserContext);
+	let usersId = JSON.parse(localStorage.getItem("currentUser")).id;
+	let cartId = JSON.parse(localStorage.getItem("currentUser")).cart.id;
+
+	console.log(cartId);
+	console.log(usersId);
 
 	useEffect(() => {
 		fetch("http://localhost:8080/api/v1/products/getAllProducts")
@@ -16,13 +21,14 @@ const MainPage = (props) => {
 	}, []);
 
 	const addToCart = (productId) => {
-		if (!userId) {
-			console.error("User ID is not available");
-			return;
-		}
+		// if (!userId) {
+		// 	console.error("User ID is not available");
+		// 	return;
+		// }
 
 		fetch(
-			`http://localhost:8080/api/v1/cart/${userId}/addProduct/${productId}`,
+			// `http://localhost:8080/api/v1/cart/${userId}/addProduct/${productId}`,
+			`http://localhost:8080/api/v1/cart/${usersId}/${cartId}/addProduct/${productId}`,
 			{
 				method: "POST",
 				headers: {

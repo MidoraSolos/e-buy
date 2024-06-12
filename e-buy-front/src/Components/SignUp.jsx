@@ -62,7 +62,8 @@ const SignUp = () => {
 				console.log("Email is added to the database ");
 
 				alert("User Made Successfully");
-				navigate("/");
+				localStorage.setItem("currentUser", JSON.stringify(result));
+				navigate("/mainPage");
 			} else {
 				console.log("email already exists");
 				setEmailExists(true);
@@ -140,7 +141,7 @@ const SignUp = () => {
 				</form>
 				<p className="text-end mt-2">
 					Already Registered?
-					<Link to="/login" className="ms-2">
+					<Link to="/" className="ms-2">
 						Sign In
 					</Link>
 				</p>
