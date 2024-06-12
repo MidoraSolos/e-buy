@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 import "../CSS/CartPage.css";
 import NavBar from "./NavBar";
 import UserContext from "../Components/UserContext"; // Import the UserContext
+import AddBalance from "./AddBalance";
 
 const Cart = () => {
 	const { userId } = useContext(UserContext); // Access userId from context
-	// console.log(userId);
 	const [cart, setCart] = useState(null);
 	const [error, setError] = useState(null);
 	const [totalPrice, setTotalPrice] = useState(0);
+	const [isAddBalanceOpen, setIsAddBalanceOpen] = useState(false);
+	const [balance, setBalance] = useState(0);
 
 	let usersId = JSON.parse(localStorage.getItem("currentUser")).id;
 	let cartId = JSON.parse(localStorage.getItem("currentUser")).cart.id;
@@ -17,9 +19,7 @@ const Cart = () => {
 	useEffect(() => {
 		const fetchCart = async () => {
 			try {
-				// Use userId instead of hardcoding cartId
 				const response = await fetch(
-					// `http://localhost:8080/api/v1/cart/${userId}`
 					`http://localhost:8080/api/v1/cart/${usersId}/${cartId}`
 				);
 				if (response.ok) {
@@ -47,11 +47,16 @@ const Cart = () => {
 		}
 	}, [cart]);
 
+	useEffect(() => {
+		const storedBalance = localStorage.getItem("balance");
+		if (storedBalance) {
+			setBalance(parseFloat(storedBalance));
+		}
+	}, []);
+
 	const removeProduct = async (productId) => {
 		try {
-			// Use userId instead of hardcoding cartId
 			const response = await fetch(
-				// `http://localhost:8080/api/v1/cart/904/removeProduct/${productId}`,
 				`http://localhost:8080/api/v1/cart/${usersId}/${cartId}/removeProduct/${productId}`,
 				{
 					method: "DELETE",
@@ -72,9 +77,24 @@ const Cart = () => {
 		}
 	};
 
+	const openAddBalance = () => {
+		setIsAddBalanceOpen(true);
+	};
+
+	const closeAddBalance = () => {
+		setIsAddBalanceOpen(false);
+	};
+
+	const addFunds = (amount) => {
+		const newBalance = balance + amount;
+		setBalance(newBalance);
+		localStorage.setItem("balance", newBalance.toString());
+		closeAddBalance();
+	};
+
 	return (
 		<>
-			<NavBar />
+			<NavBar openAddBalance={openAddBalance} balance={balance} />
 			<div className="cart-container">
 				<div className="header">
 					<Link to="/mainPage" className="return-link btn btn-danger">
@@ -122,6 +142,9 @@ const Cart = () => {
 					<h2>Loading...</h2>
 				)}
 			</div>
+			{isAddBalanceOpen && (
+				<AddBalance closeAddBalance={closeAddBalance} addFunds={addFunds} />
+			)}
 		</>
 	);
 };

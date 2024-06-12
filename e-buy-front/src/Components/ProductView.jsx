@@ -1,30 +1,63 @@
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Products from "./Products";
 import { Link } from "react-router-dom";
-
 import "../CSS/ProductView.css";
 import NavBar from "./NavBar";
+import AddBalance from "./AddBalance";
 
-const ProductView = (props) => {
+const ProductView = () => {
 	const [product, setProduct] = useState([]);
 	let { id } = useParams();
+	const [balance, setBalance] = useState(0);
+
+	const [isAddBalanceOpen, setIsAddBalanceOpen] = useState(false);
 
 	useEffect(() => {
-		fetch(`http://localhost:8080/api/v1/products/getSingleProduct/${id}`)
-			.then((response) => response.json())
-			.then((data) => setProduct(data))
-			.catch((error) => console.error("Error fetching users:", error));
-	}, []);
-	// const productinfo = [...product];
-	console.log("Special product is :", product);
-	// console.log("Special product is :", productinfo);
-	// console.log("Special product is :", product[0].name);
+		// Fetch product details
+		const fetchProduct = async () => {
+			try {
+				const response = await fetch(
+					`http://localhost:8080/api/v1/products/getSingleProduct/${id}`
+				);
+				if (response.ok) {
+					const data = await response.json();
+					setProduct(data);
+				} else {
+					console.error("Failed to fetch product");
+				}
+			} catch (error) {
+				console.error("Error fetching product:", error);
+			}
+		};
+
+		fetchProduct();
+
+		// Retrieve balance from local storage
+		const storedBalance = localStorage.getItem("balance");
+		if (storedBalance) {
+			setBalance(parseFloat(storedBalance));
+		}
+	}, [id]);
+
+	const addFunds = (amount) => {
+		const newBalance = balance + amount;
+		setBalance(newBalance);
+		localStorage.setItem("balance", newBalance.toString());
+		closeAddBalance();
+	};
+
+	const openAddBalance = () => {
+		setIsAddBalanceOpen(true);
+	};
+
+	const closeAddBalance = () => {
+		setIsAddBalanceOpen(false);
+	};
 
 	return (
 		<>
-			<NavBar />
+			<NavBar openAddBalance={openAddBalance} balance={balance} />
 			<div className="ProductContainer">
 				<img src={product.image} className="Image" alt={product.name} />
 				<div className="content">
@@ -33,10 +66,12 @@ const ProductView = (props) => {
 					<p className="description">{product.description}</p>
 					<Link to="/mainPage" className=" link btn btn-danger textSize">
 						Back to shop
-						{/* <button className="btn btn-primary">Sign In</button> */}
 					</Link>
 				</div>
 			</div>
+			{isAddBalanceOpen && (
+				<AddBalance closeAddBalance={closeAddBalance} addFunds={addFunds} />
+			)}
 		</>
 	);
 };

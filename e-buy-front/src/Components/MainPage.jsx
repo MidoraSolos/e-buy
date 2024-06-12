@@ -3,9 +3,12 @@ import "../CSS/Products.css";
 import React, { useEffect, useState, useContext } from "react";
 import NavBar from "./NavBar.jsx";
 import UserContext from "../Components/UserContext"; // Make sure the path is correct
+import AddBalance from "./AddBalance.jsx";
 
 const MainPage = (props) => {
 	const [product, setProduct] = useState([]);
+	const [isAddBalanceOpen, setIsAddBalanceOpen] = useState(false);
+	const [balance, setBalance] = useState(0);
 	const { userId } = useContext(UserContext);
 	let usersId = JSON.parse(localStorage.getItem("currentUser")).id;
 	let cartId = JSON.parse(localStorage.getItem("currentUser")).cart.id;
@@ -14,20 +17,21 @@ const MainPage = (props) => {
 	console.log(usersId);
 
 	useEffect(() => {
+		// Fetch products when component mounts
 		fetch("http://localhost:8080/api/v1/products/getAllProducts")
 			.then((response) => response.json())
 			.then((data) => setProduct(data))
-			.catch((error) => console.error("Error fetching users:", error));
+			.catch((error) => console.error("Error fetching products:", error));
+
+		// Initialize balance from local storage
+		const storedBalance = localStorage.getItem("balance");
+		if (storedBalance) {
+			setBalance(parseFloat(storedBalance));
+		}
 	}, []);
 
 	const addToCart = (productId) => {
-		// if (!userId) {
-		// 	console.error("User ID is not available");
-		// 	return;
-		// }
-
 		fetch(
-			// `http://localhost:8080/api/v1/cart/${userId}/addProduct/${productId}`,
 			`http://localhost:8080/api/v1/cart/${usersId}/${cartId}/addProduct/${productId}`,
 			{
 				method: "POST",
@@ -44,21 +48,36 @@ const MainPage = (props) => {
 			.catch((error) => console.error("Error adding product to cart:", error));
 	};
 
+	const addFunds = (amount) => {
+		const newBalance = balance + amount;
+		setBalance(newBalance);
+		localStorage.setItem("balance", newBalance.toString());
+		closeAddBalance();
+	};
+
+	const openAddBalance = () => {
+		setIsAddBalanceOpen(true);
+	};
+
+	const closeAddBalance = () => {
+		setIsAddBalanceOpen(false);
+	};
+
 	const productinfo = [...product];
 	console.log("product is :", product);
 	console.log("User id is :", userId);
 
 	return (
 		<>
-			<NavBar />
+			<NavBar openAddBalance={openAddBalance} balance={balance} />
 			<div className="fullScreen">
 				<div className="CategorySort">
 					<h1>Filter Products</h1>
-					<button>Show All products</button>
-					<button>only show furniture</button>
-					<button>only show books</button>
-					<button>only show food</button>
-					<button>only show eletronics</button>
+					<button className="CategoryItems">Show All products</button>
+					<button className="CategoryItems">only show furniture</button>
+					<button className="CategoryItems">only show books</button>
+					<button className="CategoryItems">only show food</button>
+					<button className="CategoryItems">only show electronics</button>
 				</div>
 
 				<div className="ProjectContainers">
@@ -75,6 +94,9 @@ const MainPage = (props) => {
 					))}
 				</div>
 			</div>
+			{isAddBalanceOpen && (
+				<AddBalance closeAddBalance={closeAddBalance} addFunds={addFunds} />
+			)}
 		</>
 	);
 };
