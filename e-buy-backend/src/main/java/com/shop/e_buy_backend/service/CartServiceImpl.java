@@ -72,4 +72,15 @@ public class CartServiceImpl implements CartService {
     public Cart saveCart(Cart cart) {
         return cartRepository.save(cart);
     }
+
+
+    @Override
+    public Cart removeAllProductsFromCart(Long userId, Long cartId) throws CartNotFoundException {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new CartNotFoundException("Cart with id: " + cartId + " not found"));
+
+        cart.getCartProducts().clear(); // Remove all products from cart
+        return cartRepository.save(cart);
+    }
 }
+

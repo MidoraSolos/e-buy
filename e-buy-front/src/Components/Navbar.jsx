@@ -4,20 +4,20 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 
 const clearLocalStorage = () => {
 	localStorage.clear("currentUser");
+	localStorage.removeItem("balance"); // Clear balance from local storage as well
 };
 
-const NavBar = () => {
+const NavBar = ({ openAddBalance, balance }) => {
 	return (
 		<Navbar expand="lg" className="bg-body-tertiary">
 			<Container fluid>
-				<Navbar.Brand href="#">E-Buy</Navbar.Brand>
+				<Navbar.Brand href="/mainPage">E-Buy</Navbar.Brand>
 				<Nav.Link href="/mainPage">Home</Nav.Link>
 
-				<Form className="d-flex">
+				{/* <Form className="d-flex">
 					<Form.Control
 						type="search"
 						placeholder="Search"
@@ -25,7 +25,10 @@ const NavBar = () => {
 						aria-label="Search"
 					/>
 					<Button variant="outline-success">Search</Button>
-				</Form>
+				</Form> */}
+				<Button onClick={openAddBalance}>
+					Add Balance (${balance.toFixed(2)})
+				</Button>
 				<Nav.Link href="/Cart">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

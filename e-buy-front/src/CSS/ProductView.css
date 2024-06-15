@@ -1,3 +1,9 @@
+.ParentContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* min-height: 100vh; */
+}
 .ProductContainer {
 	display: flex;
 	flex-direction: row;
@@ -6,7 +12,7 @@
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	width: 90%;
-	max-width: 1400px;
+	max-width: 1200px;
 	height: 70%;
 	margin: 20px;
 }
@@ -15,7 +21,7 @@
 	width: 40%;
 	max-width: 600px;
 	height: auto;
-	object-fit: cover;
+	/* object-fit: cover; */
 }
 
 .content {
@@ -42,6 +48,15 @@
 	font-size: 1.5em;
 	color: #555;
 }
+.cartButton {
+	margin-bottom: 1rem !important;
+}
+.back-to-shop-container {
+	display: flex;
+	justify-content: flex-end;
+	padding: 1rem;
+}
+
 @media screen and (max-width: 1000px) {
 	.card {
 		width: 20%;

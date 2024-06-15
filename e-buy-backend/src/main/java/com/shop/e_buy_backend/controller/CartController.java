@@ -18,8 +18,8 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/{userId}/{cartId}/addProduct/{productId}")
-    public ResponseEntity<Cart> addProductToCart(@PathVariable Long userId,@PathVariable Long cartId, @PathVariable Long productId) throws CartNotFoundException {
-        Cart updatedCart = cartService.addProductToCart(userId,cartId, productId);
+    public ResponseEntity<Cart> addProductToCart(@PathVariable Long userId, @PathVariable Long cartId, @PathVariable Long productId) throws CartNotFoundException {
+        Cart updatedCart = cartService.addProductToCart(userId, cartId, productId);
         if (updatedCart != null) {
             return new ResponseEntity<>(updatedCart, HttpStatus.OK);
         } else {
@@ -28,8 +28,8 @@ public class CartController {
     }
 
     @DeleteMapping("/{userId}/{cartId}/removeProduct/{productId}")
-    public ResponseEntity<Cart> removeProductFromCart(@PathVariable Long userId,@PathVariable Long cartId, @PathVariable Long productId) {
-        Cart updatedCart = cartService.removeProductFromCart(userId,cartId, productId);
+    public ResponseEntity<Cart> removeProductFromCart(@PathVariable Long userId, @PathVariable Long cartId, @PathVariable Long productId) {
+        Cart updatedCart = cartService.removeProductFromCart(userId, cartId, productId);
         if (updatedCart != null) {
             return new ResponseEntity<>(updatedCart, HttpStatus.OK);
         } else {
@@ -38,8 +38,19 @@ public class CartController {
     }
 
     @GetMapping("/{userId}/{cartId}")
-    public ResponseEntity<Cart> getCart(@PathVariable Long userId,@PathVariable Long cartId) {
-        Optional<Cart> cart = cartService.getCartById(userId,cartId);
+    public ResponseEntity<Cart> getCart(@PathVariable Long userId, @PathVariable Long cartId) {
+        Optional<Cart> cart = cartService.getCartById(userId, cartId);
         return cart.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+    @DeleteMapping("/{userId}/{cartId}/removeProducts")
+    public ResponseEntity<Cart> removeAllProductsFromCart(@PathVariable Long userId, @PathVariable Long cartId) {
+        try {
+            Cart updatedCart = cartService.removeAllProductsFromCart(userId, cartId);
+            return ResponseEntity.ok(updatedCart);
+        } catch (CartNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

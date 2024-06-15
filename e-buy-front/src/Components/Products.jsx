@@ -3,6 +3,8 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import UserContext from "../Components/UserContext"; // Adjust the import path accordingly
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default function Products({ imgUrl, productName, text, price, id }) {
 	const { userId } = useContext(UserContext); // Access the user ID from the context
@@ -28,6 +30,12 @@ export default function Products({ imgUrl, productName, text, price, id }) {
 			);
 			if (response.ok) {
 				console.log("Product added to cart");
+				Swal.fire({
+					icon: "success",
+					title: "Product added to Cart",
+					showConfirmButton: false,
+					timer: 1000,
+				});
 			} else {
 				console.error("Failed to add product to cart");
 			}
@@ -38,10 +46,10 @@ export default function Products({ imgUrl, productName, text, price, id }) {
 
 	return (
 		<Card>
-			<Card.Body>
+			<Card.Body className="cards">
 				<Link to={`/ProductView/${id}`}>
 					<Card.Img id="img" variant="top" src={imgUrl} />
-					<Card.Title>{productName}</Card.Title>
+					<Card.Title className="title">{productName}</Card.Title>
 					<Card.Text id="price">{price}</Card.Text>
 					<Card.Text>{text}</Card.Text>
 				</Link>
