@@ -12,6 +12,7 @@ const Cart = () => {
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [isAddBalanceOpen, setIsAddBalanceOpen] = useState(false);
 	const [balance, setBalance] = useState(0);
+	const [purchaseSuccess, setPurchaseSuccess] = useState(false);
 
 	let usersId = JSON.parse(localStorage.getItem("currentUser")).id;
 	let cartId = JSON.parse(localStorage.getItem("currentUser")).cart.id;
@@ -91,6 +92,39 @@ const Cart = () => {
 		localStorage.setItem("balance", newBalance.toString());
 		closeAddBalance();
 	};
+	const handlePurchase = async () => {
+		if (cart.cartProducts.length > 0) {
+			if (balance >= totalPrice) {
+				try {
+					const response = await fetch(
+						`http://localhost:8080/api/v1/cart/${usersId}/${cartId}/removeProducts`,
+						{
+							method: "DELETE",
+							headers: {
+								"Content-Type": "application/json",
+							},
+						}
+					);
+					if (response.ok) {
+						// Purchase successful, deduct totalPrice from balance
+						const newBalance = balance - totalPrice;
+						localStorage.setItem("balance", newBalance.toString());
+						setBalance(newBalance);
+						setCart(null); // Clear cart after successful purchase
+						setPurchaseSuccess(true);
+					} else {
+						setError("Failed to remove products from cart");
+					}
+				} catch (error) {
+					console.error("Error removing products from cart:", error);
+					setError("Error removing products from cart");
+				}
+			} else {
+				alert("Add Money to your account balance");
+				setShowAddMoneyMessage(true);
+			}
+		}
+	};
 
 	return (
 		<>
@@ -104,6 +138,13 @@ const Cart = () => {
 				<h1 className="cart-title">Cart</h1>
 				{error ? (
 					<h2 className="cart-error">{error}</h2>
+				) : purchaseSuccess ? (
+					<div className="purchase-success">
+						<p className="add-money-message">Purchase successful!</p>
+						<Link to="/mainPage" className="btn btn-primary">
+							Continue Shopping
+						</Link>
+					</div>
 				) : cart ? (
 					<>
 						<h2 className="cart-subtotal">
@@ -133,7 +174,10 @@ const Cart = () => {
 							<h2 className="total-price">
 								Total Price: ${totalPrice.toFixed(2)}
 							</h2>
-							<button className="purchase-btn btn btn-primary">
+							<button
+								onClick={handlePurchase}
+								className="purchase-btn btn btn-primary"
+							>
 								Purchase Items
 							</button>
 						</div>

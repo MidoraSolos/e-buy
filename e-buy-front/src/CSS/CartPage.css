@@ -3,7 +3,7 @@
 	flex-direction: column;
 	align-items: center;
 	padding: 20px;
-	background-color: #f8f8f8;
+	/* background-color: #f8f8f8; */
 }
 
 .header {
@@ -20,11 +20,13 @@
 .cart-title {
 	font-size: 32px;
 	margin-bottom: 10px;
+	text-align: center;
 }
 
 .cart-subtotal {
 	font-size: 24px;
 	margin-bottom: 20px;
+	text-align: center;
 }
 
 .cart-item {
@@ -35,13 +37,11 @@
 	max-width: 600px;
 	padding: 20px;
 	margin-bottom: 20px;
-	/* border: 1px solid #ddd;
-	border-radius: 8px;
-	background-color: #fff; */
 }
 
 .product-name {
-	font-size: 22px;
+	font-size: 35px;
+	font-weight: 700;
 	margin-bottom: 10px;
 }
 
@@ -69,21 +69,91 @@
 .purchase-btn {
 	font-size: 18px;
 }
+
 .cartProduct {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	border: 1px solid rgb(0, 0, 0);
 	border-radius: 8px;
 	background-color: #fff;
 	margin: 1rem;
-	width: 30%;
+	width: 100%;
+	max-width: 600px;
+	overflow: hidden; /* Ensure no content overflows */
+	box-sizing: border-box; /* Ensure padding is included in width */
 }
+
 .productImage {
-	flex: 0 0 200px;
+	width: 100%;
 	padding: 0.5rem;
 }
+
 .productImage img {
 	width: 100%;
 	height: auto;
 	display: block;
+}
+.add-money-message {
+	font-size: 24px;
+	color: red;
+	margin-top: 10px;
+}
+
+@media screen and (min-width: 769px) {
+	.cartProduct {
+		flex-direction: row;
+		width: 100%;
+		max-width: 600px;
+	}
+
+	.productImage {
+		flex: 0 0 200px;
+	}
+
+	.cart-item {
+		align-items: flex-start;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.cartProduct {
+		width: 100%;
+	}
+
+	.productImage {
+		width: 50%; /* Adjust the image size */
+	}
+
+	.product-name {
+		font-size: 28px;
+	}
+
+	.product-quantity,
+	.product-price {
+		font-size: 16px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.cart-title {
+		font-size: 24px;
+	}
+
+	.cart-subtotal {
+		font-size: 20px;
+	}
+
+	.product-name {
+		font-size: 24px;
+	}
+
+	.product-quantity,
+	.product-price {
+		font-size: 14px;
+	}
+
+	.productImage {
+		width: 100%; /* Ensure the image takes full width on very small screens */
+	}
 }
