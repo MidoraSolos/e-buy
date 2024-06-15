@@ -4,6 +4,8 @@ import "../CSS/CartPage.css";
 import NavBar from "./NavBar";
 import UserContext from "../Components/UserContext"; // Import the UserContext
 import AddBalance from "./AddBalance";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 const Cart = () => {
 	const { userId } = useContext(UserContext); // Access userId from context
@@ -112,6 +114,12 @@ const Cart = () => {
 						setBalance(newBalance);
 						setCart(null); // Clear cart after successful purchase
 						setPurchaseSuccess(true);
+						Swal.fire({
+							title: "Checkout Successful",
+							text: "Add more prducts to checkout again",
+							icon: "success",
+							confirmButtonText: "Ok",
+						});
 					} else {
 						setError("Failed to remove products from cart");
 					}
@@ -120,8 +128,14 @@ const Cart = () => {
 					setError("Error removing products from cart");
 				}
 			} else {
-				alert("Add Money to your account balance");
-				setShowAddMoneyMessage(true);
+				Swal.fire({
+					title: "Insufficient funds",
+					text: "Add Extra Funds To Balance",
+					icon: "error",
+					confirmButtonText: "Ok",
+				});
+				// alert("Add Money to your account balance");
+				// setShowAddMoneyMessage(true);
 			}
 		}
 	};

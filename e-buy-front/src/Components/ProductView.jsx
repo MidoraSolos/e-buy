@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import "../CSS/ProductView.css";
 import NavBar from "./NavBar";
 import AddBalance from "./AddBalance";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 const ProductView = () => {
 	const [product, setProduct] = useState([]);
@@ -77,6 +79,12 @@ const ProductView = () => {
 			);
 			if (response.ok) {
 				console.log("Product added to cart");
+				Swal.fire({
+					icon: "success",
+					title: "Product added to Cart",
+					showConfirmButton: false,
+					timer: 1000,
+				});
 			} else {
 				console.error("Failed to add product to cart");
 			}
@@ -88,6 +96,11 @@ const ProductView = () => {
 	return (
 		<>
 			<NavBar openAddBalance={openAddBalance} balance={balance} />
+			<div className="back-to-shop-container">
+				<Link to="/mainPage" className="link btn btn-danger textSize">
+					Back to shop
+				</Link>
+			</div>
 			<div className="ParentContainer">
 				<div className="ProductContainer">
 					<img src={product.image} className="Image" alt={product.name} />
@@ -101,9 +114,6 @@ const ProductView = () => {
 						>
 							Add to cart
 						</Button>
-						<Link to="/mainPage" className="link btn btn-danger textSize">
-							Back to shop
-						</Link>
 					</div>
 				</div>
 			</div>

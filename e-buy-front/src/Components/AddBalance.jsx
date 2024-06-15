@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import "../CSS/AddBalance.css"; // Make sure to style your component
+import "../CSS/AddBalance.css";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 const AddBalance = ({ closeAddBalance, addFunds }) => {
 	const [customAmount, setCustomAmount] = useState("");
@@ -14,7 +16,12 @@ const AddBalance = ({ closeAddBalance, addFunds }) => {
 			addFunds(amount);
 			setCustomAmount("");
 		} else {
-			alert("Please enter a valid amount.");
+			Swal.fire({
+				title: "Enter Valid Amount",
+
+				icon: "error",
+				confirmButtonText: "Ok",
+			});
 		}
 	};
 

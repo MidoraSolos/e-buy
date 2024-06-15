@@ -87,8 +87,8 @@ const MainPage = (props) => {
 							key={productinfo.id}
 							imgUrl={productinfo.image}
 							productName={productinfo.name}
-							price={productinfo.price}
-							text={productinfo.description.substring(0, 30) + "..."}
+							price={"$" + productinfo.price}
+							text={productinfo.description.substring(0, 35) + "..."}
 							addToCart={() => addToCart(productinfo.id)}
 						/>
 					))}

@@ -14,6 +14,7 @@
 
 p {
 	margin-bottom: 0.5rem !important;
+	font-size: 1.2rem;
 }
 
 #price {
@@ -25,19 +26,32 @@ p {
 	width: 15%;
 	margin: 1rem;
 }
+/* .card-body {
+	display: flex;
+	flex-direction: column;
+
+	text-align: left;
+	height: 100%;
+} */
 
 .card a {
 	color: var(--bs-card-title-color);
 	display: block;
 	position: relative;
+	text-decoration: none !important;
 }
 
 .ProjectContainers {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+
 	margin-top: 4rem;
 	width: 85%;
+}
+.title {
+	margin: 1rem;
+	padding-top: 1rem;
 }
 
 .fullScreen {
@@ -84,11 +98,19 @@ p {
 		flex-direction: row;
 		font-size: small;
 	}
+	p {
+		margin-bottom: 0.5rem !important;
+		font-size: 1rem;
+	}
 }
 
 @media screen and (max-width: 768px) {
 	.card {
 		width: 30%;
+	}
+	p {
+		margin-bottom: 0.5rem !important;
+		font-size: 0.8rem;
 	}
 }
 
