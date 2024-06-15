@@ -10,4 +10,5 @@ public interface CartService {
     Cart removeProductFromCart(Long userId,Long cartId, Long productId);
     Optional<Cart> getCartById(Long userId, Long cartId);
     Cart saveCart(Cart cart);
+    Cart removeAllProductsFromCart(Long cartId, Long userId) throws CartNotFoundException;
 }
