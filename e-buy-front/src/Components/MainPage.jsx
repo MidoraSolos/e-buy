@@ -7,6 +7,7 @@ import AddBalance from "./AddBalance.jsx";
 
 const MainPage = (props) => {
 	const [product, setProduct] = useState([]);
+	const [filteredProduct, setFilteredProduct] = useState([]);
 	const [isAddBalanceOpen, setIsAddBalanceOpen] = useState(false);
 	const [balance, setBalance] = useState(0);
 	const { userId } = useContext(UserContext);
@@ -17,19 +18,19 @@ const MainPage = (props) => {
 	console.log(usersId);
 
 	useEffect(() => {
-		// Fetch products when component mounts
 		fetch("http://localhost:8080/api/v1/products/getAllProducts")
 			.then((response) => response.json())
-			.then((data) => setProduct(data))
+			.then((data) => {
+				setProduct(data);
+				setFilteredProduct(data);
+			})
 			.catch((error) => console.error("Error fetching products:", error));
 
-		// Initialize balance from local storage
 		const storedBalance = localStorage.getItem("balance");
 		if (storedBalance) {
 			setBalance(parseFloat(storedBalance));
 		}
 	}, []);
-
 	const addToCart = (productId) => {
 		fetch(
 			`http://localhost:8080/api/v1/cart/${usersId}/${cartId}/addProduct/${productId}`,
@@ -46,6 +47,23 @@ const MainPage = (props) => {
 				// Optionally update UI or give feedback to user
 			})
 			.catch((error) => console.error("Error adding product to cart:", error));
+	};
+
+	const displayFilteredProducts = (category) => {
+		if (category === "all") {
+			setFilteredProduct(product); // Show all products if category is "all"
+		} else {
+			const filteredProducts = product.filter(
+				(prod) => prod.category.name === category
+			);
+			console.log(
+				"Filtered Products for category",
+				category,
+				":",
+				filteredProducts
+			);
+			setFilteredProduct(filteredProducts);
+		}
 	};
 
 	const addFunds = (amount) => {
@@ -65,6 +83,7 @@ const MainPage = (props) => {
 
 	const productinfo = [...product];
 	console.log("product is :", product);
+	console.log("fitlered product list is :", filteredProduct);
 	console.log("User id is :", userId);
 
 	return (
@@ -73,15 +92,40 @@ const MainPage = (props) => {
 			<div className="fullScreen">
 				<div className="CategorySort">
 					<h1>Filter Products</h1>
-					<button className="CategoryItems">Show All products</button>
-					<button className="CategoryItems">only show furniture</button>
-					<button className="CategoryItems">only show books</button>
-					<button className="CategoryItems">only show food</button>
-					<button className="CategoryItems">only show electronics</button>
+					<button
+						onClick={() => displayFilteredProducts("all")}
+						className="CategoryItems"
+					>
+						Show all products
+					</button>
+					<button
+						onClick={() => displayFilteredProducts("Furniture")}
+						className="CategoryItems"
+					>
+						Only show furniture
+					</button>
+					<button
+						onClick={() => displayFilteredProducts("Books")}
+						className="CategoryItems"
+					>
+						Only show books
+					</button>
+					<button
+						onClick={() => displayFilteredProducts("Food")}
+						className="CategoryItems"
+					>
+						Only show food
+					</button>
+					<button
+						onClick={() => displayFilteredProducts("Electronics")}
+						className="CategoryItems"
+					>
+						Only show electronics
+					</button>
 				</div>
 
 				<div className="ProjectContainers">
-					{productinfo.map((productinfo) => (
+					{filteredProduct.map((productinfo) => (
 						<Products
 							{...productinfo}
 							key={productinfo.id}
