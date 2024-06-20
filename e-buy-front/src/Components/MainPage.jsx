@@ -56,7 +56,7 @@ const MainPage = (props) => {
 	};
 
 	const openAddBalance = () => {
-		setIsAddBalanceOpen(true);
+		setIsAddBalanceOpen(!isAddBalanceOpen);
 	};
 
 	const closeAddBalance = () => {

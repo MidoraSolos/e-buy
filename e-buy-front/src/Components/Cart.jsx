@@ -81,7 +81,7 @@ const Cart = () => {
 	};
 
 	const openAddBalance = () => {
-		setIsAddBalanceOpen(true);
+		setIsAddBalanceOpen(!isAddBalanceOpen);
 	};
 
 	const closeAddBalance = () => {
