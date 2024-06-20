@@ -1,5 +1,6 @@
 package com.shop.e_buy_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -17,23 +18,16 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "image")
-    private String image;
-
-    @Column(name = "description")
-    private String description;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<Product>();
 
     public Category() {
     }
 
-    public Category(Long id, String name, String image, String description, List<Product> products) {
+    public Category(Long id, String name, List<Product> products) {
         this.id = id;
         this.name = name;
-        this.image = image;
-        this.description = description;
         this.products = products;
     }
 
@@ -51,22 +45,6 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public List<Product> getProducts() {
