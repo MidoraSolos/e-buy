@@ -23,20 +23,20 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
     public Product() {
     }
 
-    public Product(Long id, String image, String name, double price, String description) {
+    public Product(Long id, String image, String name, double price, String description, Category category) {
         this.id = id;
         this.image = image;
         this.name = name;
         this.price = price;
         this.description = description;
+        this.category = category;
     }
 
     public Long getId() {
@@ -77,6 +77,14 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
 
