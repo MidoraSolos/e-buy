@@ -53,6 +53,23 @@ p {
 	margin: 1rem;
 	padding-top: 1rem;
 }
+.search-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin-top: 30px; /* Adjust the margin to position the search bar at the desired distance from the top */
+}
+
+.search-bar {
+	display: flex;
+	width: 40%; /* Adjust the width as needed */
+	max-width: 600px; /* Limit the maximum width */
+}
+
+.search-bar .form-control {
+	flex-grow: 1;
+}
 
 .fullScreen {
 	display: flex;
@@ -61,20 +78,42 @@ p {
 }
 
 .CategorySort {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	padding: 1rem;
-
-	width: 15%;
+	width: 200px;
+	padding: 20px;
+	background-color: #c3d3a6;
+	border-right: 2px solid #9db17c;
+	border-top: 2px solid #9db17c;
 }
+
+.CategorySort h1 {
+	font-size: 1.5em;
+	margin-bottom: 20px;
+	color: #4b5d29; /* Dark green for the heading */
+}
+
 .CategoryItems {
-	margin: 1rem;
-	padding: 0.25rem;
+	display: block;
+	width: 100%;
+	padding: 10px 20px;
+	margin-bottom: 10px;
+	font-size: 1em;
+	color: #4b5d29;
+	background-color: #f6f9ec;
+	border: 1px solid #9db17c;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: left;
+	transition: background-color 0.3s, border-color 0.3s;
 }
 
-.CategorySort button {
-	margin-bottom: 2rem;
+.CategoryItems:hover {
+	background-color: #dbe5c1;
+	border-color: #7c8f5d;
+}
+
+.ProjectContainers {
+	flex-grow: 1;
+	padding: 20px;
 }
 
 /* Media Queries for Responsiveness */
@@ -87,6 +126,7 @@ p {
 @media screen and (max-width: 992px) {
 	.fullScreen {
 		flex-direction: column;
+		margin-top: 1rem;
 		align-items: center;
 	}
 	.ProjectContainers {
@@ -94,7 +134,7 @@ p {
 	}
 	.CategorySort {
 		width: 90%;
-		margin-bottom: 2rem;
+		/* margin-bottom: 1rem; */
 		flex-direction: row;
 		font-size: small;
 	}
