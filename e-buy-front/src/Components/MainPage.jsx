@@ -4,9 +4,13 @@ import React, { useEffect, useState, useContext } from "react";
 import NavBar from "./NavBar.jsx";
 import UserContext from "../Components/UserContext"; // Make sure the path is correct
 import AddBalance from "./AddBalance.jsx";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 const MainPage = (props) => {
 	const [product, setProduct] = useState([]);
+	const [search, setSearch] = useState("");
+	// console.log(search);
 	const [filteredProduct, setFilteredProduct] = useState([]);
 	const [isAddBalanceOpen, setIsAddBalanceOpen] = useState(false);
 	const [balance, setBalance] = useState(0);
@@ -31,6 +35,7 @@ const MainPage = (props) => {
 			setBalance(parseFloat(storedBalance));
 		}
 	}, []);
+
 	const addToCart = (productId) => {
 		fetch(
 			`http://localhost:8080/api/v1/cart/${usersId}/${cartId}/addProduct/${productId}`,
@@ -89,6 +94,19 @@ const MainPage = (props) => {
 	return (
 		<>
 			<NavBar openAddBalance={openAddBalance} balance={balance} />
+			<div className="search-container">
+				<div className="search-bar">
+					<Form className="d-flex w-100">
+						<Form.Control
+							onChange={(e) => setSearch(e.target.value)}
+							type="search"
+							placeholder="Search"
+							className="form-control"
+							aria-label="Search"
+						/>
+					</Form>
+				</div>
+			</div>
 			<div className="fullScreen">
 				<div className="CategorySort">
 					<h1>Filter Products</h1>
@@ -125,17 +143,23 @@ const MainPage = (props) => {
 				</div>
 
 				<div className="ProjectContainers">
-					{filteredProduct.map((productinfo) => (
-						<Products
-							{...productinfo}
-							key={productinfo.id}
-							imgUrl={productinfo.image}
-							productName={productinfo.name}
-							price={"$" + productinfo.price}
-							text={productinfo.description.substring(0, 35) + "..."}
-							addToCart={() => addToCart(productinfo.id)}
-						/>
-					))}
+					{filteredProduct
+						.filter((productinfo) => {
+							return search.toLocaleLowerCase() === ""
+								? productinfo
+								: productinfo.name.toLocaleLowerCase().includes(search);
+						})
+						.map((productinfo) => (
+							<Products
+								{...productinfo}
+								key={productinfo.id}
+								imgUrl={productinfo.image}
+								productName={productinfo.name}
+								price={"$" + productinfo.price}
+								text={productinfo.description.substring(0, 35) + "..."}
+								addToCart={() => addToCart(productinfo.id)}
+							/>
+						))}
 				</div>
 			</div>
 			{isAddBalanceOpen && (
